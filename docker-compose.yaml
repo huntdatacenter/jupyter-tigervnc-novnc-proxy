@@ -2,35 +2,16 @@ version: "3.9"
 
 services:
   jupyterlab:
-    image: jupyter/pgadmin:test
+    image: jupyter-tigervnc-novnc-proxy
     build:
       context: "."
       dockerfile: setup/Dockerfile
-    container_name: pgadmin-jupyterlab
+    container_name: jupyter-tigervnc-novnc-proxy
     restart: always
     ports:
       - 8888:8888
     environment:
-      PGHOST: postgres
-      PGPORT: 5432
-      PGDATABASE: postgres
-      PGUSER: postgres
-      PGPASSWORD: postgres
-      # PGADMIN_ENABLED: 'false'
+      NOVNC_ENABLED: 'true'
+      # NOVNC_ENABLED: 'false'
     volumes:
-      - "${PWD}:/home/jovyan/jupyter-pgadmin-proxy"
-  postgres:
-    image: postgres:15.3-alpine
-    hostname: postgres
-    container_name: pgadmin-postgres
-    restart: always
-    environment:
-      POSTGRES_DB: postgres
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-    volumes:
-      - pgtestdb:/var/lib/postgresql/data
-
-volumes:
-  pgtestdb: {}
-
+      - "${PWD}:/home/jovyan/jupyter-tigervnc-novnc-proxy"

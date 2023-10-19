@@ -3,22 +3,19 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "jupyter-pgadmin-proxy"
-version = "0.0.3"
+name = "jupyter-novnc-proxy"
+version = "0.0.1"
 authors = [
   { name="Matus Kosut", email="matus.kosut@ntnu.no" },
-  { name="Diepiriye Okujagu", email="diepiriye.d.okujagu@ntnu.no" },
+  { name="Jakub Hudak", email="jakub.hudak@ntnu.no" },
 ]
-description = "Jupyter server proxy for pgAdmin"
+description = "Jupyter server proxy for NOVNC"
 readme = "README.md"
 license = { file = "LICENSE.md" }
 requires-python = ">=3.8"
 dependencies = [
     "jupyter-server-proxy>=3.2.2,<4.0.0",
-    "pgadmin4",
-    "simple-websocket",
-    "psycopg",
-    "gunicorn",
+    "websockify",
 ]
 classifiers = [
     "Framework :: Jupyter",
@@ -39,17 +36,17 @@ keywords = [
 ]
 
 [project.urls]
-"Homepage" = "https://github.com/huntdatacenter/jupyter-pgadmin-proxy"
+"Homepage" = "https://github.com/huntdatacenter/jupyter-tigervnc-novnc-proxy"
 
 [project.optional-dependencies]
 dev = ["black", "ruamel.yaml", "pytest", "pytest-cov"]
 
 [project.entry-points.jupyter_serverproxy_servers]
-pgadmin = "jupyter_pgadmin_proxy:run_app"
+novnc = "jupyter_novnc_proxy:run_app"
 
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/jupyter_pgadmin_proxy"]
+packages = ["src/jupyter_novnc_proxy"]
 
 [tool.hatch.build]
 sources = ["src"]
@@ -61,4 +58,4 @@ artifacts = [
 artifacts = []
 exclude = [".github", "setup", "Makefile", "docker-compose.yml"]
 
-[tool.hatch.build.targets.jupyter_pgadmin_proxy]
+[tool.hatch.build.targets.jupyter_novnc_proxy]

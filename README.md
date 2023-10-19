@@ -1,20 +1,28 @@
-# Jupyter pgAdmin proxy
+# Jupyter TigerVNC/NOVNC proxy
 
-[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/jupyter-pgadmin-proxy.svg)](https://pypi.org/project/jupyter-pgadmin-proxy/)
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/jupyter-tigervnc-novnc-proxy.svg)](https://pypi.org/project/jupyter-tigervnc-novnc-proxy/)
 
-jupyter-pgadmin-proxy provides Jupyter extension to run [pgAdmin 4](https://pypi.org/project/pgadmin4/). See also official pages for [pgAdmin](https://www.pgadmin.org/).
+jupyter-tigervnc-novnc-proxy description (TODO)
+
+## Development
+
+Look for TODOs:
+
+```bash
+grep -r TODO .
+```
 
 ## Installation
 
 You can install jupyter-pgadmin-proxy inside your environment with Jupyter / Jupyterlab:
 
-```
-python3 -m pip install jupyter-pgadmin-proxy
+```bash
+python3 -m pip install jupyter-tigervnc-novnc-proxy
 ```
 
 ## Build
 
-```
+```bash
 python3 -m pip install hatch
 
 hatch build
@@ -26,26 +34,26 @@ ls -la dist/*
 
 Try `make help` to see available commands:
 
-```
+```bash
 make help
 ```
 
-```
-python3 -m pip install git+https://github.com/huntdatacenter/jupyter-pgadmin-proxy.git@main
+```bash
+python3 -m pip install git+https://github.com/huntdatacenter/jupyter-tigervnc-novnc-proxy.git@mainegg=jupyter-tigervnc-novnc-proxy
 ```
 
 ## Testing in docker
 
 Run/rebuild local Jupyterlab service:
 
-```
+```bash
 make rebuild
 ```
 
 Running the command should open a url in the browser http://127.0.0.1:8888/lab
 
 To stop the service run:
-```
+```bash
 make down
 ```
 

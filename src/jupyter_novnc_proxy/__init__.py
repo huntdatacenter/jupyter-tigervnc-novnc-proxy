@@ -1,9 +1,21 @@
 import os
 import logging
-import shutil
 import pwd
 import getpass
-from src.novnc_workbench.jupyter_config import config
+
+
+APP_NAME = "NOVNC"
+APP_TITLE = "Remote desktop (VNC)"
+
+TRUTHY = ("true", "1", "yes", "on", "y")
+
+logging.basicConfig(level="INFO")
+log = logging.getLogger(__name__)
+log.setLevel("INFO")
+
+
+def truthy(val):
+    return str(val).strip('"').strip("'").lower() in TRUTHY
 
 
 def _get_env(port, base_url):
@@ -22,8 +34,7 @@ def _get_env(port, base_url):
 
     return {
         "FLASK_RUN_PORT": str(port),
-        "FLASK_APP_URL_PREFIX": f"{base_url}webapp",
-        "FLASK_APP": config['flask_app'],
+        "FLASK_APP_URL_PREFIX": f"{base_url}novnc",
     }
 
 
@@ -33,9 +44,9 @@ def get_icon_path():
     )
 
 
-def _get_timeout(default=15):
+def _get_timeout(default=300):
     try:
-        return float(os.getenv('RSESSION_TIMEOUT', default))
+        return float(os.getenv(f"{APP_NAME}_TIMEOUT", default))
     except Exception:
         return default
 
@@ -55,33 +66,31 @@ def run_app():
     This method is run by jupyter-server-proxy package to launch the Web app.
     """
 
-    logging.basicConfig(level="INFO")
-    logger = logging.getLogger("WorkbenchAppProxy")
-    logger.setLevel("INFO")
-    logger.info("Initializing Jupyter Workbench Proxy")
+    log.info("Initializing Jupyter Workbench Proxy")
+
+    import jupyter_novnc_proxy
+    pkgdir = os.path.dirname(jupyter_novnc_proxy.__file__)
+    novnc_dir = os.path.join(pkgdir, "novnc")
+    novnc_proxy = os.path.join(novnc_dir, "utils", "novnc_proxy")
+    executable_name = os.path.join(pkgdir, "vnc.sh")
 
     icon_path = get_icon_path()
-    try:
-        executable_name = shutil.which("flask")
-    except Exception:
-        executable_name = "flask"
+
     host = "127.0.0.1"
     user = get_system_user()
-    logger.debug(f"[{user}] Icon_path:  {icon_path}")
-    logger.debug(f"[{user}] Launch Command: {executable_name}")
+    log.debug(f"[{user}] Icon_path:  {icon_path}")
+    log.debug(f"[{user}] Launch Command: {executable_name}")
     return {
         "command": [
-            executable_name,
-            f"--app={config['flask_app']}",
-            "run",
-            f"--host={host}",
+            executable_name, novnc_dir, novnc_proxy, host, "{port}",
         ],
-        "timeout": 100,
+        "timeout": _get_timeout(),
         "environment": _get_env,
         "absolute_url": True,
         # "rewrite_response": rewrite_netloc,
         "launcher_entry": {
-            "title": "Workbench App",
-            "icon_path": icon_path
+            "title": APP_TITLE,
+            "icon_path": icon_path,
+            "enabled": truthy(os.getenv(f"{APP_NAME}_ENABLED", "true")),
         },
     }

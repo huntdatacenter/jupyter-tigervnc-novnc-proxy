@@ -1,0 +1,8 @@
+include README.md
+include requirements.txt
+
+include src/jupyter_novnc_proxy/vnc.sh
+graft src/workbench_app_proxy/novnc
+
+global-exclude *.py[cod]
+global-exclude __pycache__
