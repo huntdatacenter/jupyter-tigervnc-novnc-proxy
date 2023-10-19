@@ -15,3 +15,5 @@
 # Remember to copy directories with all their content
 #
 # TODO - once we have files in place we need to register them in MANIFEST.IN
+#
+# TODO - we need to patch one specific js file to make websockify in under uri (remind me on this one)
