@@ -4,9 +4,9 @@
 
 jupyter-tigervnc-novnc-proxy description (TODO)
 
-## Development
+## TODOs
 
-Look for TODOs:
+Look for TODOs in files:
 
 ```bash
 grep -r TODO .
