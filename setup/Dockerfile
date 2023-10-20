@@ -3,10 +3,10 @@ FROM jupyter/minimal-notebook:lab-3.6.1
 USER root
 RUN set -x \
     && apt-get update \
-    # TODO -- Install desktop env https://docs.hdc.ntnu.no/do-science/tools/technical/vnc/#_2-install-a-desktop-environment
+    && sudo apt-get update -y && sudo apt-get autoremove -y \
+    && sudo apt-get install -y --no-install-recommends xubuntu-desktop \
     && apt-get install -y --no-install-recommends xauth xinit dbus-x11 \
-    # TODO -- Install tigervnc packages (apt search tigervnc)
-    && apt-get install -y --no-install-recommends <name-of-tigervnc-pkg> \
+    && apt-get install -y --no-install-recommends tigervnc-standalone-server tigervnc-xorg-extension \
     # Cleanup -- screensaver causes issues in VNC
     && apt-get purge -y pm-utils xscreensaver* \
     # Installation of utilities
