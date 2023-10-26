@@ -86,7 +86,7 @@ def run_app():
         ],
         "timeout": _get_timeout(),
         "environment": _get_env,
-        "absolute_url": True,
+        "absolute_url": False,
         # "rewrite_response": rewrite_netloc,
         "launcher_entry": {
             "title": APP_TITLE,
