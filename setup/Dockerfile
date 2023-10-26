@@ -34,7 +34,9 @@ WORKDIR "${HOME}"
 RUN jupyter serverextension enable --sys-prefix jupyter_server_proxy
 RUN jupyter labextension disable "@jupyterlab/apputils-extension:announcements"
 
-# TODO -- later on we will add some customizations here
+COPY --chown=root:root setup/hunt_cloud_1440.jpg /usr/share/backgrounds
+COPY --chown=root:root setup/hunt_cloud_2560.jpg /usr/share/backgrounds
+COPY --chown=root:root setup/xfce4-desktop.xml /etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-desktop.xml
 
 USER "${NB_USER}"
 WORKDIR "${HOME}"
