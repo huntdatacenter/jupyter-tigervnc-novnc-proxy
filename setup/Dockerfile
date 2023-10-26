@@ -2,7 +2,7 @@ FROM jupyter/minimal-notebook:lab-3.6.1
 
 USER root
 RUN set -x \
-    && apt-get update -y && sudo apt-get autoremove -y \
+    && apt-get update -y \
     && apt-get install -y --no-install-recommends xubuntu-desktop \
     && apt-get install -y --no-install-recommends xauth xinit dbus-x11 \
     && apt-get install -y --no-install-recommends tigervnc-standalone-server tigervnc-xorg-extension \
