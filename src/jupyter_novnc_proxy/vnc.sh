@@ -11,10 +11,9 @@ cd "${HOME}"
 
 
 # Start VNC server (tigerVNC)
-echo "# -- TODO -- start VNC server (tigerVNC) here"
+"${NOVNC_DIR}/start-vnc-server.sh"
 
 # Start Websockify webserver serving novnc.html
-echo "# -- TODO -- start Websockify webserver serving novnc.html"
-
+"${NOVNC_PROXY}" --listen "${NOVNC_PORT}" --web "${NOVNC_DIR}" --vnc 127.0.0.1:5900
 
 
