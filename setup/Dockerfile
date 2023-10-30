@@ -7,6 +7,10 @@ RUN set -x \
     && apt-get update -y \
     && apt-get install -y vim wget curl iputils-ping software-properties-common \
     && add-apt-repository ppa:mozillateam/ppa \
+    && echo "Package: *" | tee /etc/apt/preferences.d/mozilla-firefox \
+    && echo "Pin: release o=LP-PPA-mozillateam" | tee -a /etc/apt/preferences.d/mozilla-firefox \
+    && echo "Pin-Priority: 1001" | tee -a /etc/apt/preferences.d/mozilla-firefox \
+    && echo 'Unattended-Upgrade::Allowed-Origins:: "LP-PPA-mozillateam:${distro_codename}";' | sudo tee /etc/apt/apt.conf.d/51unattended-upgrades-firefox \
     && apt-get install -y firefox
 
 # -- dev - pre-install dependencies - only needed for local testing (faster rebuild)
