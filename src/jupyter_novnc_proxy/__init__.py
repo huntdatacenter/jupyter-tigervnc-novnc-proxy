@@ -5,7 +5,7 @@ import getpass
 
 
 APP_NAME = "NOVNC"
-APP_TITLE = "Remote desktop (VNC)"
+APP_TITLE = "Remote desktop (VNC) [Beta]"
 
 TRUTHY = ("true", "1", "yes", "on", "y")
 
@@ -92,5 +92,6 @@ def run_app():
             "title": APP_TITLE,
             "icon_path": icon_path,
             "enabled": truthy(os.getenv(f"{APP_NAME}_ENABLED", "true")),
+            "path_info": "novnc/vnc.html?autoconnect=true&resize=remote",
         },
     }

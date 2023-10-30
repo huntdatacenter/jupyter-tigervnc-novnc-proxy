@@ -4,8 +4,12 @@ USER root
 RUN set -x \
     && apt-get update -y \
     && apt-get install -y --no-install-recommends xubuntu-desktop \
+    && apt-get install -y --no-install-recommends wget \
+    && apt-get install -y --no-install-recommends curl \
+    && apt-get install -y --no-install-recommends iputils-ping \
     && apt-get install -y --no-install-recommends xauth xinit dbus-x11 \
     && apt-get install -y --no-install-recommends tigervnc-standalone-server tigervnc-xorg-extension \
+    # && apt-get install ./chromium.deb \
     # Cleanup -- screensaver causes issues in VNC
     && apt-get purge -y pm-utils xscreensaver* \
     # Installation of utilities
@@ -40,5 +44,6 @@ COPY --chown=root:root setup/xfce4-desktop.xml /etc/xdg/xfce4/xfconf/xfce-percha
 
 USER "${NB_USER}"
 WORKDIR "${HOME}"
+
 
 # Package related ENV variables should be defined inside python package
