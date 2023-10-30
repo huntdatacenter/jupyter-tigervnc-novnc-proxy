@@ -30,7 +30,7 @@ RUN set -x \
     && apt-get install -y --no-install-recommends xauth xinit dbus-x11 \
     && apt-get install -y --no-install-recommends tigervnc-standalone-server tigervnc-xorg-extension \
     # -- Cleanup - screensaver causes issues in VNC
-    && apt-get purge -y pm-utils xscreensaver* \
+    && apt-get purge -y pm-utils xscreensaver*
 
 # -- VNC DEPENDENCIES - Customizations
 COPY --chown=root:root setup/hunt_cloud_1440.png /usr/share/backgrounds
