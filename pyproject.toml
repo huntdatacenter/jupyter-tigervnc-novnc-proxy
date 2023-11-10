@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "jupyter-novnc-proxy"
+name = "jupyter-tigervnc-novnc-proxy"
 version = "0.0.1"
 authors = [
   { name="Matus Kosut", email="matus.kosut@ntnu.no" },
@@ -42,11 +42,11 @@ keywords = [
 dev = ["black", "ruamel.yaml", "pytest", "pytest-cov"]
 
 [project.entry-points.jupyter_serverproxy_servers]
-novnc = "jupyter_novnc_proxy:run_app"
+novnc = "jupyter_tigervnc_novnc_proxy:run_app"
 
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/jupyter_novnc_proxy"]
+packages = ["src/jupyter_tigervnc_novnc_proxy"]
 
 [tool.hatch.build]
 sources = ["src"]
@@ -58,4 +58,4 @@ artifacts = [
 artifacts = []
 exclude = [".github", "setup", "Makefile", "docker-compose.yml"]
 
-[tool.hatch.build.targets.jupyter_novnc_proxy]
+[tool.hatch.build.targets.jupyter_tigervnc_novnc_proxy]
