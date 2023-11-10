@@ -68,8 +68,8 @@ def run_app():
 
     log.info("Initializing Jupyter Workbench Proxy")
 
-    import jupyter_novnc_proxy
-    pkgdir = os.path.dirname(jupyter_novnc_proxy.__file__)
+    import jupyter_tigervnc_novnc_proxy
+    pkgdir = os.path.dirname(jupyter_tigervnc_novnc_proxy.__file__)
     novnc_dir = os.path.join(pkgdir, "novnc")
     novnc_proxy = os.path.join(novnc_dir, "utils", "novnc_proxy")
     executable_name = os.path.join(pkgdir, "vnc.sh")
