@@ -14,7 +14,7 @@ grep -r TODO .
 
 ## Installation
 
-You can install jupyter-pgadmin-proxy inside your environment with Jupyter / Jupyterlab:
+You can install jupyter-tigervnc-novnc-proxy inside your environment with Jupyter / Jupyterlab:
 
 ```bash
 python3 -m pip install jupyter-tigervnc-novnc-proxy
@@ -56,4 +56,3 @@ To stop the service run:
 ```bash
 make down
 ```
-
