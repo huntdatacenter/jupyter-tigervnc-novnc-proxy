@@ -5,7 +5,7 @@ import getpass
 
 
 APP_NAME = "NOVNC"
-APP_TITLE = "Remote desktop (Beta)"
+APP_TITLE = "Remote desktop"
 
 TRUTHY = ("true", "1", "yes", "on", "y")
 
