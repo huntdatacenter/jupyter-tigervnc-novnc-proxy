@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "jupyter-tigervnc-novnc-proxy"
-version = "0.0.2"
+version = "1.0.0"
 authors = [
   { name="Matus Kosut", email="matus.kosut@ntnu.no" },
   { name="Jakub Hudak", email="jakub.hudak@ntnu.no" },
@@ -16,6 +16,7 @@ requires-python = ">=3.8"
 dependencies = [
     "jupyter-server-proxy",
     "websockify",
+    "supervisor",
 ]
 classifiers = [
     "Framework :: Jupyter",
@@ -23,11 +24,13 @@ classifiers = [
     "Intended Audience :: Developers",
     "Natural Language :: English",
     "License :: OSI Approved :: MIT License",
-    "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
 ]
 keywords = [
     "Jupyter Proxy",
@@ -44,6 +47,10 @@ dev = ["black", "ruamel.yaml", "pytest", "pytest-cov"]
 [project.entry-points.jupyter_serverproxy_servers]
 novnc = "jupyter_tigervnc_novnc_proxy:run_app"
 
+[project.scripts]
+novnc-wait = "jupyter_tigervnc_novnc_proxy.hooks:wait_for_vnc_port"
+novnc-supervisorctl = "jupyter_tigervnc_novnc_proxy.hooks:supervisorctl"
+novnc-supervisord = "jupyter_tigervnc_novnc_proxy.hooks:supervisord"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/jupyter_tigervnc_novnc_proxy"]

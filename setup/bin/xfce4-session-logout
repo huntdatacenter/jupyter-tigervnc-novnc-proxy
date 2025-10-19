@@ -1,0 +1,4 @@
+#!/bin/bash
+
+novnc-supervisorctl restart vncserver  # Logout equivalent
+# novnc-supervisorctl restart novncproxy

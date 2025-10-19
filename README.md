@@ -53,6 +53,7 @@ make rebuild
 Running the command should open a url in the browser http://127.0.0.1:8888/lab
 
 To stop the service run:
+
 ```bash
 make down
 ```

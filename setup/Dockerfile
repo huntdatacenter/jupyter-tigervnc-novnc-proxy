@@ -1,4 +1,4 @@
-FROM jupyter/minimal-notebook:lab-3.6.1
+FROM jupyter/minimal-notebook:lab-4.0.7
 
 USER root
 
@@ -13,19 +13,6 @@ RUN set -x \
     && echo 'Unattended-Upgrade::Allowed-Origins:: "LP-PPA-mozillateam:${distro_codename}";' | sudo tee /etc/apt/apt.conf.d/51unattended-upgrades-firefox \
     && apt-get install -y firefox
 
-# -- dev - pre-install dependencies - only needed for local testing (faster rebuild)
-RUN mamba install -q -c conda-forge -y websockify jupyter-server-proxy
-RUN fix-permissions /opt/conda
-RUN jupyter serverextension enable --sys-prefix jupyter_server_proxy
-RUN jupyter labextension disable "@jupyterlab/apputils-extension:announcements"
-RUN fix-permissions /opt/conda
-
-# -- dev - jupyter configuration
-USER root
-RUN mv -v /etc/jupyter/jupyter_notebook_config.py /etc/jupyter/jupyter_notebook_config_base.py
-COPY setup/jupyter_notebook_config.py /etc/jupyter/jupyter_notebook_config.py
-RUN fix-permissions /etc/jupyter
-
 # -- VNC DEPENDENCIES - installation of core VNC packages
 RUN set -x \
     && apt-get update -y \
@@ -34,12 +21,43 @@ RUN set -x \
     && apt-get install -y --no-install-recommends xauth xinit dbus-x11 \
     && apt-get install -y --no-install-recommends tigervnc-standalone-server tigervnc-xorg-extension \
     # -- Cleanup - screensaver causes issues in VNC
-    && apt-get purge -y pm-utils xscreensaver*
+    && apt-get purge -y pm-utils xscreensaver* \
+    && apt-get purge -y update-manager
 
-# -- VNC DEPENDENCIES - Customizations
+# -- Customize screen lock
+COPY --chown=root:root --chmod=755 setup/bin/xflock4 /usr/bin/xflock4
+COPY --chown=root:root --chmod=755 setup/bin/xfce4-session-logout /usr/bin/xfce4-session-logout
+# -- VNC Customizations
 COPY --chown=root:root setup/hunt_cloud_1440.png /usr/share/backgrounds
 COPY --chown=root:root setup/hunt_cloud_2560.png /usr/share/backgrounds
-COPY --chown=root:root setup/xfce4-desktop.xml /etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-desktop.xml
+COPY --chown=root:root --chmod=644 setup/etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-desktop.xml /etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-desktop.xml
+COPY --chown=root:root --chmod=644 setup/etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml /etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml
+# COPY --chown=root:root --chmod=644 setup/etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-session.xml /etc/xdg/xfce4/xfconf/xfce-perchannel-xml/xfce4-session.xml
+COPY --chown=root:root --chmod=644 setup/etc/xdg/xdg-xubuntu/xfce4/xfconf/xfce-perchannel-xml/xfce4-session.xml /etc/xdg/xdg-xubuntu/xfce4/xfconf/xfce-perchannel-xml/xfce4-session.xml
+COPY --chown=root:root --chmod=644 setup/etc/xdg/xfce4/panel/default.xml /etc/xdg/xfce4/panel/default.xml
+COPY --chown=root:root --chmod=644 setup/etc/xdg/menus/xfce-applications.menu /etc/xdg/menus/xfce-applications.menu
+RUN set -x \
+    && rm -vf /etc/xdg/autostart/xscreensaver.desktop \
+    && rm -vf /usr/share/applications/xfce4-session-logout.desktop \
+    # && sed -i -E 's/Exec=.*/Exec=novnc-supervisorctl restart vncserver/g' /usr/share/applications/xfce4-session-logout.desktop \
+    && sed -i "s|tigervncconfig -iconic|#tigervncconfig -iconic|g" /etc/X11/Xtigervnc-session \
+    && echo "done"
+
+# -- dev - pre-install dependencies - only needed for local testing (faster rebuild)
+RUN mamba install -q -c conda-forge -y websockify jupyter-server-proxy
+RUN fix-permissions /opt/conda
+RUN jupyter server extension enable --sys-prefix jupyter_server_proxy
+RUN jupyter labextension disable "@jupyterlab/apputils-extension:announcements"
+RUN fix-permissions /opt/conda
+
+# -- dev - jupyter configuration
+USER root
+
+# RUN mv -v /etc/jupyter/jupyter_notebook_config.py /etc/jupyter/jupyter_notebook_config_base.py
+# COPY setup/jupyter_notebook_config.py /etc/jupyter/jupyter_notebook_config.py
+RUN mv -v /etc/jupyter/jupyter_server_config.py /etc/jupyter/jupyter_server_config_base.py
+COPY setup/jupyter_server_config.py /etc/jupyter/jupyter_server_config.py
+RUN fix-permissions /etc/jupyter
 
 # -- VNC DEPENDENCIES - install jupyter-tigervnc-novnc-proxy package
 #  - use installation from git repository in production setup
@@ -54,6 +72,12 @@ RUN fix-permissions /opt/conda
 
 # -- dev - jupyter user configuration
 USER "${NB_USER}"
+
+# # -- Use for testing only - XDG_RUNTIME_DIR
+# ENV XDG_RUNTIME_DIR=/tmp/1000-runtime-dir
+# RUN mkdir -p "${XDG_RUNTIME_DIR}" \
+#     && chmod 0700 "${XDG_RUNTIME_DIR}"
+
 WORKDIR "${HOME}"
 
 # Package related ENV variables should be defined inside python package

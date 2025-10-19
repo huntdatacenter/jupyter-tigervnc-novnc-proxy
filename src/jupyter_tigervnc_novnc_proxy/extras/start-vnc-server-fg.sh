@@ -17,6 +17,8 @@ VNC_RESOLUTION=${VNC_RESOLUTION:-"1200x900"}
 VNC_COL_DEPTH=${VNC_COL_DEPTH:-"24"}
 export DISPLAY="${DISPLAY:-:0}"
 
+VNC_WINDOW_TITLE="${APP_TITLE:-Remote desktop}"
+
 mkdir -p $HOME/.vnc
 # touch $HOME/.vnc/passwd
 
@@ -26,9 +28,11 @@ mkdir -p $HOME/.vnc
 
 config_file=$HOME/.vnc/config
 touch $config_file
-printf "geometry=$VNC_RESOLUTION\ndepth=$VNC_COL_DEPTH\ndesktop=Desktop-GUI\nsession=xfce4-session" > ~/.vnc/config
-# printf "geometry=$VNC_RESOLUTION\ndepth=$VNC_COL_DEPTH\ndesktop=Desktop-GUI\nsession=xfce4" > ~/.vnc/config
-args="-SecurityTypes None"
+printf "geometry=$VNC_RESOLUTION\ndepth=$VNC_COL_DEPTH\ndesktop=${VNC_WINDOW_TITLE}\nsession=xfce4-session" > ~/.vnc/config
+# printf "geometry=$VNC_RESOLUTION\ndepth=$VNC_COL_DEPTH\ndesktop=${VNC_WINDOW_TITLE}\nsession=xfce4" > ~/.vnc/config
+
+# NOTE -- use fg=foreground process when running under supervisor (instead of default background process)
+args="-SecurityTypes None -fg"
 
 # /usr/libexec/tigervncsession-start
 # /usr/bin/vncserver

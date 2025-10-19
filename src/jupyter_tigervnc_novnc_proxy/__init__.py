@@ -32,9 +32,19 @@ def _get_env(port, base_url):
         [Dict]: Containing environment settings to launch the Web application.
     """
 
+    import jupyter_tigervnc_novnc_proxy
+    novnc_proxy_dir = os.path.dirname(jupyter_tigervnc_novnc_proxy.__file__)
+    novnc_dir = os.path.join(novnc_proxy_dir, "novnc")
+    novnc_proxy = os.path.join(novnc_dir, "utils", "novnc_proxy")
+
     return {
-        "FLASK_RUN_PORT": str(port),
-        "FLASK_APP_URL_PREFIX": f"{base_url}novnc",
+        "NOVNC_DIR": novnc_dir,
+        "NOVNC_PROXY_DIR": novnc_proxy_dir,
+        "NOVNC_PROXY": novnc_proxy,
+        "NOVNC_PORT": str(port),
+        "VNC_PORT": str(5900),
+        "NOVNC_URL_PREFIX": f"{base_url}novnc",
+        "APP_TITLE": APP_TITLE,
     }
 
 
@@ -69,10 +79,10 @@ def run_app():
     log.info("Initializing Jupyter Workbench Proxy")
 
     import jupyter_tigervnc_novnc_proxy
-    pkgdir = os.path.dirname(jupyter_tigervnc_novnc_proxy.__file__)
-    novnc_dir = os.path.join(pkgdir, "novnc")
+    novnc_proxy_dir = os.path.dirname(jupyter_tigervnc_novnc_proxy.__file__)
+    novnc_dir = os.path.join(novnc_proxy_dir, "novnc")
     novnc_proxy = os.path.join(novnc_dir, "utils", "novnc_proxy")
-    executable_name = os.path.join(pkgdir, "vnc.sh")
+    executable_name = os.path.join(novnc_proxy_dir, "vnc.sh")
 
     icon_path = get_icon_path()
 
@@ -82,7 +92,7 @@ def run_app():
     log.debug(f"[{user}] Launch Command: {executable_name}")
     return {
         "command": [
-            executable_name, novnc_dir, novnc_proxy, host, "{port}",
+            executable_name, novnc_proxy_dir, novnc_proxy, host, "{port}",
         ],
         "timeout": _get_timeout(),
         "environment": _get_env,

@@ -1,5 +1,3 @@
-version: "3.9"
-
 services:
   jupyterlab:
     image: jupyter-tigervnc-novnc-proxy
@@ -11,7 +9,8 @@ services:
     ports:
       - 8888:8888
     environment:
-      NOVNC_ENABLED: 'true'
+      USER: "jovyan"
+      NOVNC_ENABLED: "true"
       # NOVNC_ENABLED: 'false'
     volumes:
       - "${PWD}:/home/jovyan/jupyter-tigervnc-novnc-proxy"

@@ -3,3 +3,5 @@ __pycache__
 docker-compose.yaml
 Makefile
 .gitignore
+.github/
+

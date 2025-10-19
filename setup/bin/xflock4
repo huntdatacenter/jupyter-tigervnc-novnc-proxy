@@ -1,0 +1,4 @@
+#!/bin/bash
+
+# novnc-supervisorctl restart vncserver
+novnc-supervisorctl restart novncproxy  # Screen lock equivalent
