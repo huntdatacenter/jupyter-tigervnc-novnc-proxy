@@ -102,6 +102,8 @@ def run_app():
             "title": APP_TITLE,
             "icon_path": icon_path,
             "enabled": truthy(os.getenv(f"{APP_NAME}_ENABLED", "true")),
-            "path_info": "novnc/vnc.html?autoconnect=true&resize=remote&show_dot=true",
+            # -- NOTE
+            #    moved URI parameters to mandatory.json "novnc/vnc.html?autoconnect=true&resize=remote&show_dot=true"
+            "path_info": "novnc/vnc.html",
         },
     }
