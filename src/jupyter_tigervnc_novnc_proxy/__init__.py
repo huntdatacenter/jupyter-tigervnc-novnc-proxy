@@ -38,6 +38,7 @@ def _get_env(port, base_url):
     novnc_proxy = os.path.join(novnc_dir, "utils", "novnc_proxy")
 
     return {
+        "SUPERVISOR_RUNTIME_DIR": os.getenv("SUPERVISOR_RUNTIME_DIR", "/tmp"),
         "NOVNC_DIR": novnc_dir,
         "NOVNC_PROXY_DIR": novnc_proxy_dir,
         "NOVNC_PROXY": novnc_proxy,

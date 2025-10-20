@@ -72,12 +72,6 @@ RUN fix-permissions /opt/conda
 
 # -- dev - jupyter user configuration
 USER "${NB_USER}"
-
-# # -- Use for testing only - XDG_RUNTIME_DIR
-# ENV XDG_RUNTIME_DIR=/tmp/1000-runtime-dir
-# RUN mkdir -p "${XDG_RUNTIME_DIR}" \
-#     && chmod 0700 "${XDG_RUNTIME_DIR}"
-
 WORKDIR "${HOME}"
 
 # Package related ENV variables should be defined inside python package

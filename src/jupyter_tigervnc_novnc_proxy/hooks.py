@@ -33,12 +33,11 @@ def supervisorctl():
     """
     Relay supervisorctl commands to supervisorctl and pass path to novnc configs.
 
-    Command: novnc-supervisorctl
-     --help
+    Command: novnc-supervisorctl --help
     """
-    if 'XDG_RUNTIME_DIR' not in os.environ:
-        os.environ['XDG_RUNTIME_DIR'] = os.path.join(os.getenv('HOME'), '.local', 'runtime')
-    runtime_dir = os.getenv('XDG_RUNTIME_DIR')
+    if 'SUPERVISOR_RUNTIME_DIR' not in os.environ:
+        os.environ['SUPERVISOR_RUNTIME_DIR'] = 'tmp'  # os.path.join(os.getenv('HOME'), '.local', 'runtime')
+    runtime_dir = os.environ['SUPERVISOR_RUNTIME_DIR']
 
     if os.path.exists(os.path.join(runtime_dir, "supervisor.sock")):
         novnc_proxy_dir = os.path.dirname(jupyter_tigervnc_novnc_proxy.__file__)
@@ -61,9 +60,9 @@ def supervisord():
 
     Command: novnc-supervisord --help
     """
-    if 'XDG_RUNTIME_DIR' not in os.environ:
-        os.environ['XDG_RUNTIME_DIR'] = os.path.join(os.getenv('HOME'), '.local', 'runtime')
-    runtime_dir = os.getenv('XDG_RUNTIME_DIR')
+    if 'SUPERVISOR_RUNTIME_DIR' not in os.environ:
+        os.environ['SUPERVISOR_RUNTIME_DIR'] = 'tmp'  # os.path.join(os.getenv('HOME'), '.local', 'runtime')
+    runtime_dir = os.environ['SUPERVISOR_RUNTIME_DIR']
 
     if os.path.exists(runtime_dir):
         novnc_proxy_dir = os.path.dirname(jupyter_tigervnc_novnc_proxy.__file__)
@@ -76,7 +75,7 @@ def supervisord():
             args = []
         subprocess.run(["supervisord", "-c", supervisor_conf] + args)
     else:
-        log.error(f"[NOVNC] XDG_RUNTIME_DIR={runtime_dir} does not exist.")
+        log.error(f"[NOVNC] SUPERVISOR_RUNTIME_DIR={runtime_dir} does not exist.")
         sys.exit(1)
 
 

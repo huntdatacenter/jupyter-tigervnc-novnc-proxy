@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "jupyter-tigervnc-novnc-proxy"
-version = "1.0.0"
+version = "1.0.1"
 authors = [
   { name="Matus Kosut", email="matus.kosut@ntnu.no" },
   { name="Jakub Hudak", email="jakub.hudak@ntnu.no" },
